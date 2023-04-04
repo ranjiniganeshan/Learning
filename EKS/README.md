@@ -3,7 +3,7 @@
 ![image](https://user-images.githubusercontent.com/32661402/229692882-1cf180f6-b264-4b53-9614-1edae67a8a6c.png)
 
 ## Architecture of EKS
-## Components in the Master nodes
+## Components in the Master nodes /control Plane
 * Scheduler: is a control plane process that assigns pods to nodes. When you create a pod, kube-scheduler picks the most suitable node in your cluster and schedules the pod on the node
 * Controller: Manages the lifecycle of the pod.
 Node controller: Responsible for noticing and responding when nodes go down.
