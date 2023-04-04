@@ -22,4 +22,47 @@ kube-proxy uses the operating system packet filtering layer if there is one and 
 
 * The container runtime is the software that is responsible for running containers.
 
-*********************************************************************************************************************************
+```
+Ranjinis-MacBook-Pro:~ ranjini$ cat cluster-trust-policy.json 
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Principal": {
+        "Service": "eks.amazonaws.com"
+      },
+      "Action": "sts:AssumeRole"
+    }
+  ]
+}
+Ranjinis-MacBook-Pro:~ ranjini$ aws iam create-role \
+>   --role-name eksClusterRole \
+>   --assume-role-policy-document file://"cluster-trust-policy.json"
+{
+    "Role": {
+        "AssumeRolePolicyDocument": {
+            "Version": "2012-10-17", 
+            "Statement": [
+                {
+                    "Action": "sts:AssumeRole", 
+                    "Effect": "Allow", 
+                    "Principal": {
+                        "Service": "eks.amazonaws.com"
+                    }
+                }
+            ]
+        }, 
+        "RoleId": "AROA5HNQXE7VY4P6JPCKT", 
+        "CreateDate": "2023-04-04T09:35:22Z", 
+        "RoleName": "eksClusterRole", 
+        "Path": "/", 
+        "Arn": "arn:aws:iam::909293070315:role/eksClusterRole"
+    }
+}
+Ranjinis-MacBook-Pro:~ ranjini$ aws iam attach-role-policy \
+>   --policy-arn arn:aws:iam::aws:policy/AmazonEKSClusterPolicy \
+>   --role-name eksClusterRole
+
+```
+
