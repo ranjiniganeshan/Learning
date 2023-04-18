@@ -66,3 +66,20 @@ Ranjinis-MacBook-Pro:~ ranjini$ aws iam attach-role-policy \
 
 ```
 
+##EKS Cluster creation
+
+#Install eksctl on mac
+
+# Install Homebrew on MacOs
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+
+Below commands are fine to install eksctl
+# Install the Weaveworks Homebrew tap.
+brew tap weaveworks/tap
+
+# Install the Weaveworks Homebrew tap.
+brew install weaveworks/tap/eksctl
+
+# Verify eksctl version
+eksctl version
+
