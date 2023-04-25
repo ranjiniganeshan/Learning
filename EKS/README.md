@@ -447,8 +447,76 @@ pod "multicontainer-pods" deleted
 Ranjinis-MacBook-Pro:eks ranjini$ kubectl delete ns facebook
 namespace "facebook" deleted
 ```
-  
 
+# creating storage
+
+```
+Ranjinis-MacBook-Pro:eks ranjini$ kubectl create -f storage.yml 
+pod/database created
+Ranjinis-MacBook-Pro:eks ranjini$ kubectl get all -n twitter
+NAME           READY   STATUS    RESTARTS   AGE
+pod/database   1/1     Running   0          11s
+Ranjinis-MacBook-Pro:eks ranjini$ kubectl describe pod database -n twitter
+Name:         database
+Namespace:    twitter
+Priority:     0
+**Node:         ip-192-168-48-109.us-west-2.compute.internal/192.168.48.109**
+Start Time:   Tue, 25 Apr 2023 22:15:33 +0530
+Labels:       app=psql
+              tier=backend
+              version=master
+Annotations:  <none>
+Status:       Running
+IP:           192.168.38.20
+IPs:
+  IP:  192.168.38.20
+Containers:
+  psql:
+    Container ID:   containerd://0d7b34b8158bdd51ebe4342be49aa0230e3d777480a0c509a1c77f16d962a8ca
+    Image:          postgres
+    Image ID:       docker.io/library/postgres@sha256:6cc97262444f1c45171081bc5a1d4c28b883ea46a6e0d1a45a8eac4a7f4767ab
+    Port:           5432/TCP
+    Host Port:      0/TCP
+    State:          Running
+      Started:      Tue, 25 Apr 2023 22:15:43 +0530
+    Ready:          True
+    Restart Count:  0
+    Environment:
+      POSTGRES_PASSWORD:  Password@123
+   ** Mounts:
+      /var/lib/postgresql/data from pgdata (rw)**
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-4z6d9 (ro)
+Conditions:
+  Type              Status
+  Initialized       True 
+  Ready             True 
+  ContainersReady   True 
+  PodScheduled      True 
+Volumes:
+  pgdata:
+   ** Type:          HostPath (bare host directory volume)
+    Path:          /var/lib/postgres**
+    HostPathType:  DirectoryOrCreate
+  kube-api-access-4z6d9:
+    Type:                    Projected (a volume that contains injected data from multiple sources)
+    TokenExpirationSeconds:  3607
+    ConfigMapName:           kube-root-ca.crt
+    ConfigMapOptional:       <nil>
+    DownwardAPI:             true
+QoS Class:                   BestEffort
+Node-Selectors:              <none>
+Tolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
+                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
+Events:
+  Type    Reason     Age   From               Message
+  ----    ------     ----  ----               -------
+  Normal  Scheduled  64s   default-scheduler  Successfully assigned twitter/database to ip-192-168-48-109.us-west-2.compute.internal
+  Normal  Pulling    63s   kubelet            Pulling image "postgres"
+  Normal  Pulled     54s   kubelet            Successfully pulled image "postgres" in 8.574403332s (8.574415988s including waiting)
+  Normal  Created    54s   kubelet            Created container psql
+  Normal  Started    54s   kubelet            Started container psql
+  
+```
 
 
 
