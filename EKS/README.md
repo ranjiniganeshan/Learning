@@ -230,6 +230,7 @@ twitter           Active   2m57s
 Ranjinis-MacBook-Pro:eks ranjini$ 
 
 ```
+# Pod creation
 
 ```
 
@@ -253,6 +254,18 @@ twitter       webserver                  1/1     Running   0          2m56s
 Ranjinis-MacBook-Pro:eks ranjini$ 
 
 ```
+
+````
+
+Ranjinis-MacBook-Pro:eks ranjini$ kubectl create -f multipod.yaml 
+pod/multicontainer-pods created
+Ranjinis-MacBook-Pro:eks ranjini$ kubectl get pods -n facebook
+NAME                  READY   STATUS    RESTARTS   AGE
+multicontainer-pods   2/2     Running   0          18s
+Ranjinis-MacBook-Pro:eks ranjini$ 
+
+```
+
 
 
 
