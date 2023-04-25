@@ -116,8 +116,8 @@ nodeGroups:
       publicKeyPath: ~/.ssh/id_rsa.pub
   ```
   
- 4. eksctl create cluster -f demo-cluster.yaml 
- ````
+ 4. eksctl create cluster -f demo-cluster.yaml
+ ```
 Ranjinis-MacBook-Pro:eks ranjini$ eksctl create cluster -f demo-cluster.yaml 
 2023-04-25 16:25:04 [ℹ]  eksctl version 0.137.0
 2023-04-25 16:25:04 [ℹ]  using region us-west-2
@@ -203,8 +203,6 @@ Ranjinis-MacBook-Pro:eks ranjini$ eksctl create cluster -f demo-cluster.yaml
 2023-04-25 16:47:31 [✔]  EKS cluster "demo-cluster" in "us-west-2" region is ready
 
 ```
-
-
 # creating namespace
 
 refer to namespace yaml file https://github.com/ranjiniganeshan/Learning/tree/main/EKS/namespace
@@ -255,7 +253,9 @@ Ranjinis-MacBook-Pro:eks ranjini$
 
 ```
 
-````
+Multipod creation
+
+```
 
 Ranjinis-MacBook-Pro:eks ranjini$ kubectl create -f multipod.yaml 
 pod/multicontainer-pods created
