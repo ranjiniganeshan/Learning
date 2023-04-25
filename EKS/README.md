@@ -266,6 +266,95 @@ Ranjinis-MacBook-Pro:eks ranjini$
 
 ```
 
+To log into the container
+
+Describe the pod 
+
+```
+Ranjinis-MacBook-Pro:eks ranjini$ kubectl describe pod multicontainer-pods -n facebook
+Name:         multicontainer-pods
+Namespace:    facebook
+Priority:     0
+Node:         ip-192-168-60-197.us-west-2.compute.internal/192.168.60.197
+Start Time:   Tue, 25 Apr 2023 17:40:20 +0530
+Labels:       app=httpd
+              tier=frontend-backend
+              version=v1
+Annotations:  <none>
+Status:       Running
+IP:           192.168.48.218
+IPs:
+  IP:  192.168.48.218
+Containers:
+  web:
+    Container ID:   containerd://e148006664e89c7687a345d8e164865a9490cfcef7ebfd8a8095fe4716d68492
+    Image:          httpd
+    Image ID:       docker.io/library/httpd@sha256:a182ef2350699f04b8f8e736747104eb273e255e818cd55b6d7aa50a1490ed0c
+    Port:           80/TCP
+    Host Port:      0/TCP
+    State:          Running
+      Started:      Tue, 25 Apr 2023 17:40:25 +0530
+    Ready:          True
+    Restart Count:  0
+    Environment:    <none>
+    Mounts:
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-hphhc (ro)
+  db:
+    Container ID:   containerd://1937170e42413860068cdebbd4f49268ae28e3f4ff11414f164c2c5d8de03893
+    Image:          mysql
+    Image ID:       docker.io/library/mysql@sha256:a43f6e7e7f3a5e5b90f857fbed4e3103ece771b19f0f75880f767cf66bbb6577
+    Port:           3306/TCP
+    Host Port:      0/TCP
+    State:          Running
+      Started:      Tue, 25 Apr 2023 17:40:36 +0530
+    Ready:          True
+    Restart Count:  0
+    Environment:
+      MYSQL_ROOT_PASSWORD:  cloudnloud
+    Mounts:
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-hphhc (ro)
+Conditions:
+  Type              Status
+  Initialized       True 
+  Ready             True 
+  ContainersReady   True 
+  PodScheduled      True 
+Volumes:
+  kube-api-access-hphhc:
+    Type:                    Projected (a volume that contains injected data from multiple sources)
+    TokenExpirationSeconds:  3607
+    ConfigMapName:           kube-root-ca.crt
+    ConfigMapOptional:       <nil>
+    DownwardAPI:             true
+QoS Class:                   BestEffort
+Node-Selectors:              <none>
+Tolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
+                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
+Events:
+  Type    Reason     Age    From               Message
+  ----    ------     ----   ----               -------
+  Normal  Scheduled  5m41s  default-scheduler  Successfully assigned facebook/multicontainer-pods to ip-192-168-60-197.us-west-2.compute.internal
+  Normal  Pulling    5m41s  kubelet            Pulling image "httpd"
+  Normal  Pulled     5m36s  kubelet            Successfully pulled image "httpd" in 4.939456709s (4.939472527s including waiting)
+  Normal  Created    5m36s  kubelet            Created container web
+  Normal  Started    5m36s  kubelet            Started container web
+  Normal  Pulling    5m36s  kubelet            Pulling image "mysql"
+  Normal  Pulled     5m25s  kubelet            Successfully pulled image "mysql" in 10.923130775s (10.923178135s including waiting)
+  Normal  Created    5m25s  kubelet            Created container db
+  Normal  Started    5m25s  kubelet            Started container db
+  
+  
+  ```
+  
+  #get the iinformation pod name and container name
+  
+  ```
+  Ranjinis-MacBook-Pro:eks ranjini$ kubectl exec -it pod/multicontainer-pods -n facebook bash -c web
+kubectl exec [POD] [COMMAND] is DEPRECATED and will be removed in a future version. Use kubectl exec [POD] -- [COMMAND] instead.
+root@multicontainer-pods:/usr/local/apache2# 
+```
+  
+
 
 
 
