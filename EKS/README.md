@@ -231,4 +231,28 @@ Ranjinis-MacBook-Pro:eks ranjini$
 
 ```
 
+```
+
+Ranjinis-MacBook-Pro:eks ranjini$ kubectl create -f pod.yaml
+pod/webserver created
+Ranjinis-MacBook-Pro:eks ranjini$ kubectl get pods
+No resources found in default namespace.
+Ranjinis-MacBook-Pro:eks ranjini$ kubectl get pods -A
+NAMESPACE     NAME                       READY   STATUS    RESTARTS   AGE
+kube-system   aws-node-bcdzn             1/1     Running   0          47m
+kube-system   aws-node-sxfmz             1/1     Running   0          48m
+kube-system   aws-node-whvkz             1/1     Running   0          47m
+kube-system   aws-node-wpr9d             1/1     Running   0          48m
+kube-system   coredns-67f8f59c6c-mv8gf   1/1     Running   0          61m
+kube-system   coredns-67f8f59c6c-svg44   1/1     Running   0          61m
+kube-system   kube-proxy-8wnzf           1/1     Running   0          47m
+kube-system   kube-proxy-f6mjc           1/1     Running   0          47m
+kube-system   kube-proxy-jqf5p           1/1     Running   0          48m
+kube-system   kube-proxy-zgnkf           1/1     Running   0          48m
+twitter       webserver                  1/1     Running   0          2m56s
+Ranjinis-MacBook-Pro:eks ranjini$ 
+
+```
+
+
 
