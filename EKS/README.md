@@ -518,5 +518,38 @@ Events:
   
 ```
 
+Verified the hospath existed.
+
+```
+[root@ip-192-168-48-109 ~]# ls -ltra /var/lib/postgres
+total 72
+drwxr-xr-x 31 root root   4096 Apr 25 16:45 ..
+drwx------  2 rngd input     6 Apr 25 16:45 pg_twophase
+drwx------  2 rngd input     6 Apr 25 16:45 pg_snapshots
+drwx------  2 rngd input     6 Apr 25 16:45 pg_serial
+drwx------  2 rngd input     6 Apr 25 16:45 pg_notify
+drwx------  2 rngd input     6 Apr 25 16:45 pg_dynshmem
+drwx------  2 rngd input     6 Apr 25 16:45 pg_commit_ts
+-rw-------  1 rngd input     3 Apr 25 16:45 PG_VERSION
+drwx------  2 rngd input     6 Apr 25 16:45 pg_tblspc
+drwx------  2 rngd input     6 Apr 25 16:45 pg_stat_tmp
+drwx------  2 rngd input     6 Apr 25 16:45 pg_replslot
+drwx------  4 rngd input    36 Apr 25 16:45 pg_multixact
+-rw-------  1 rngd input 29525 Apr 25 16:45 postgresql.conf
+-rw-------  1 rngd input    88 Apr 25 16:45 postgresql.auto.conf
+-rw-------  1 rngd input  1636 Apr 25 16:45 pg_ident.conf
+drwx------  2 rngd input    18 Apr 25 16:45 pg_xact
+drwx------  3 rngd input    60 Apr 25 16:45 pg_wal
+drwx------  2 rngd input    18 Apr 25 16:45 pg_subtrans
+drwx------  5 rngd input    33 Apr 25 16:45 base
+-rw-------  1 rngd input  4821 Apr 25 16:45 pg_hba.conf
+drwx------ 19 rngd root   4096 Apr 25 16:45 .
+-rw-------  1 rngd input    36 Apr 25 16:45 postmaster.opts
+drwx------  2 rngd input     6 Apr 25 16:45 pg_stat
+-rw-------  1 rngd input    94 Apr 25 16:45 postmaster.pid
+drwx------  2 rngd input  4096 Apr 25 16:48 global
+drwx------  4 rngd input    68 Apr 25 16:50 pg_logical
+```
+
 
 
