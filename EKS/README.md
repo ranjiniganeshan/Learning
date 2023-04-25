@@ -732,5 +732,11 @@ Events:
   Normal  Created    55s   kubelet            Created container redis
   Normal  Started    55s   kubelet            Started container redis
   ```
+  
+  Services
+  
+  Nodeport: Listens on port and forwards the request to pod.
+   <img width="929" alt="Screen Shot 2023-04-25 at 10 59 00 PM" src="https://user-images.githubusercontent.com/32661402/234356067-2327386c-0407-44a6-8094-98f33e177dee.png">
+
 
 
