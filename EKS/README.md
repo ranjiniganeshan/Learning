@@ -520,6 +520,9 @@ Events:
 
 Verified the hospath existed.
 
+
+
+
 ```
 [root@ip-192-168-48-109 ~]# ls -ltra /var/lib/postgres
 total 72
@@ -551,5 +554,183 @@ drwx------  2 rngd input  4096 Apr 25 16:48 global
 drwx------  4 rngd input    68 Apr 25 16:50 pg_logical
 ```
 
+Multistorage path 
+
+
+
+```
+Ranjinis-MacBook-Pro:eks ranjini$ kubectl create -f multistorage.yaml 
+pod/db created
+Ranjinis-MacBook-Pro:eks ranjini$ kubectl describe pod db -n facebook
+Name:         db
+Namespace:    facebook
+Priority:     0
+Node:         ip-192-168-69-241.us-west-2.compute.internal/192.168.69.241
+Start Time:   Tue, 25 Apr 2023 22:26:51 +0530
+Labels:       app=postgres
+              tier=backend
+              version=master
+Annotations:  <none>
+Status:       Running
+IP:           192.168.65.187
+IPs:
+  IP:  192.168.65.187
+Containers:
+  db:
+    Container ID:   containerd://cca11b9dd06fcb82ce6a074f0f67deada1f98e98d1892a564bac99e613e81083
+    Image:          postgres
+    Image ID:       docker.io/library/postgres@sha256:6cc97262444f1c45171081bc5a1d4c28b883ea46a6e0d1a45a8eac4a7f4767ab
+    Port:           5432/TCP
+    Host Port:      0/TCP
+    State:          Running
+      Started:      Tue, 25 Apr 2023 22:27:01 +0530
+    Ready:          True
+    Restart Count:  0
+    Environment:
+      POSTGRES_PASSWORD:  Password@123
+    Mounts:
+      /var/lib/postgresql/data from pgdata (rw)
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-mkcv5 (ro)
+  web:
+    Container ID:   containerd://f3600fa9edfc59f4f65c29218088e66c97591988c5d61d1a3298effa3d0f6866
+    Image:          nginx
+    Image ID:       docker.io/library/nginx@sha256:63b44e8ddb83d5dd8020327c1f40436e37a6fffd3ef2498a6204df23be6e7e94
+    Port:           80/TCP
+    Host Port:      0/TCP
+    State:          Running
+      Started:      Tue, 25 Apr 2023 22:27:07 +0530
+    Ready:          True
+    Restart Count:  0
+    Environment:    <none>
+    Mounts:
+      /usr/share/nginx/html/ from webdata (rw)
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-mkcv5 (ro)
+Conditions:
+  Type              Status
+  Initialized       True 
+  Ready             True 
+  ContainersReady   True 
+  PodScheduled      True 
+Volumes:
+  pgdata:
+    Type:          HostPath (bare host directory volume)
+    Path:          /var/lib/postgres
+    HostPathType:  DirectoryOrCreate
+  webdata:
+    Type:          HostPath (bare host directory volume)
+    Path:          /var/www/html
+    HostPathType:  DirectoryOrCreate
+  kube-api-access-mkcv5:
+    Type:                    Projected (a volume that contains injected data from multiple sources)
+    TokenExpirationSeconds:  3607
+    ConfigMapName:           kube-root-ca.crt
+    ConfigMapOptional:       <nil>
+    DownwardAPI:             true
+QoS Class:                   BestEffort
+Node-Selectors:              <none>
+Tolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
+                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
+Events:
+  Type    Reason     Age   From               Message
+  ----    ------     ----  ----               -------
+  Normal  Scheduled  116s  default-scheduler  Successfully assigned facebook/db to ip-192-168-69-241.us-west-2.compute.internal
+  Normal  Pulling    115s  kubelet            Pulling image "postgres"
+  Normal  Pulled     106s  kubelet            Successfully pulled image "postgres" in 8.771079271s (8.771110347s including waiting)
+  Normal  Created    106s  kubelet            Created container db
+  Normal  Started    106s  kubelet            Started container db
+  Normal  Pulling    106s  kubelet            Pulling image "nginx"
+  Normal  Pulled     100s  kubelet            Successfully pulled image "nginx" in 6.106551926s (6.106574468s including waiting)
+  Normal  Created    100s  kubelet            Created container web
+  Normal  Started    100s  kubelet            Started container web
+Ranjinis-MacBook-Pro:eks ranjini$ 
+
+```
+
+Complete yaml which create pod ns and storage
+
+```
+Ranjinis-MacBook-Pro:eks ranjini$ kubectl create -f full.yaml 
+namespace/twitter created
+pod/webserver created
+Ranjinis-MacBook-Pro:eks ranjini$ kubectl get all -n twitter
+NAME            READY   STATUS    RESTARTS   AGE
+pod/webserver   2/2     Running   0          19s
+
+```
+
+## Web and db pod creation in default namespace
+
+```
+Ranjinis-MacBook-Pro:eks ranjini$ kubectl create -f web-db.yaml 
+pod/first-pod created
+Ranjinis-MacBook-Pro:eks ranjini$ kubectl describe pod first-pod
+Name:         first-pod
+Namespace:    default
+Priority:     0
+Node:         ip-192-168-69-241.us-west-2.compute.internal/192.168.69.241
+Start Time:   Tue, 25 Apr 2023 22:35:37 +0530
+Labels:       app=cloudnloud
+Annotations:  <none>
+Status:       Running
+IP:           192.168.84.234
+IPs:
+  IP:  192.168.84.234
+Containers:
+  web-server:
+    Container ID:   containerd://8e2401ff486e022f9a2048003fcc84088350f5b3db17b36a8fe7cdc06b9de23f
+    Image:          httpd
+    Image ID:       docker.io/library/httpd@sha256:a182ef2350699f04b8f8e736747104eb273e255e818cd55b6d7aa50a1490ed0c
+    Port:           80/TCP
+    Host Port:      0/TCP
+    State:          Running
+      Started:      Tue, 25 Apr 2023 22:35:41 +0530
+    Ready:          True
+    Restart Count:  0
+    Environment:    <none>
+    Mounts:
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-cjgvh (ro)
+  redis:
+    Container ID:   containerd://58469f556d748a85659ca9ea63703f3615b2fc2b76829ecb7a7174704d22b0ce
+    Image:          redis
+    Image ID:       docker.io/library/redis@sha256:f50031a49f41e493087fb95f96fdb3523bb25dcf6a3f0b07c588ad3cdbe1d0aa
+    Port:           6379/TCP
+    Host Port:      0/TCP
+    State:          Running
+      Started:      Tue, 25 Apr 2023 22:35:43 +0530
+    Ready:          True
+    Restart Count:  0
+    Environment:    <none>
+    Mounts:
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-cjgvh (ro)
+Conditions:
+  Type              Status
+  Initialized       True 
+  Ready             True 
+  ContainersReady   True 
+  PodScheduled      True 
+Volumes:
+  kube-api-access-cjgvh:
+    Type:                    Projected (a volume that contains injected data from multiple sources)
+    TokenExpirationSeconds:  3607
+    ConfigMapName:           kube-root-ca.crt
+    ConfigMapOptional:       <nil>
+    DownwardAPI:             true
+QoS Class:                   BestEffort
+Node-Selectors:              <none>
+Tolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
+                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
+Events:
+  Type    Reason     Age   From               Message
+  ----    ------     ----  ----               -------
+  Normal  Scheduled  61s   default-scheduler  Successfully assigned default/first-pod to ip-192-168-69-241.us-west-2.compute.internal
+  Normal  Pulling    60s   kubelet            Pulling image "httpd"
+  Normal  Pulled     58s   kubelet            Successfully pulled image "httpd" in 2.871219518s (2.87123069s including waiting)
+  Normal  Created    58s   kubelet            Created container web-server
+  Normal  Started    57s   kubelet            Started container web-server
+  Normal  Pulling    57s   kubelet            Pulling image "redis"
+  Normal  Pulled     55s   kubelet            Successfully pulled image "redis" in 2.189438491s (2.189448788s including waiting)
+  Normal  Created    55s   kubelet            Created container redis
+  Normal  Started    55s   kubelet            Started container redis
+  ```
 
 
