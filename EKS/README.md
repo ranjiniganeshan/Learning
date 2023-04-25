@@ -205,8 +205,5 @@ Ranjinis-MacBook-Pro:eks ranjini$ eksctl create cluster -f demo-cluster.yaml
 ```
 
 
-![Screen Shot 2023-04-25 at 4 53 50 PM](https://user-images.githubusercontent.com/32661402/234262143-503be751-5154-4452-aad1-fa36bdb2a21e.png)
-
-aws console
 
 
