@@ -205,5 +205,30 @@ Ranjinis-MacBook-Pro:eks ranjini$ eksctl create cluster -f demo-cluster.yaml
 ```
 
 
+# creating namespace
+
+refer to namespace yaml file https://github.com/ranjiniganeshan/Learning/tree/main/EKS/namespace
+```
+Ranjinis-MacBook-Pro:eks ranjini$ kubectl create -f test-dev.yaml 
+namespace/development created
+
+
+
+Ranjinis-MacBook-Pro:eks ranjini$ kubectl create -f namespace.yaml
+namespace/twitter created
+namespace/facebook created
+Ranjinis-MacBook-Pro:eks ranjini$ kubectl get namespace
+NAME              STATUS   AGE
+default           Active   39m
+development       Active   4m21s
+facebook          Active   2m53s
+kube-node-lease   Active   39m
+kube-public       Active   39m
+kube-system       Active   39m
+production        Active   5m3s
+twitter           Active   2m57s
+Ranjinis-MacBook-Pro:eks ranjini$ 
+
+```
 
 
