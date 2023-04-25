@@ -353,6 +353,100 @@ Events:
 kubectl exec [POD] [COMMAND] is DEPRECATED and will be removed in a future version. Use kubectl exec [POD] -- [COMMAND] instead.
 root@multicontainer-pods:/usr/local/apache2# 
 ```
+# both the container using same port
+
+https://github.com/ranjiniganeshan/Learning/blob/main/EKS/POD/duplicate-port.yaml
+
+```
+Ranjinis-MacBook-Pro:eks ranjini$ kubectl get all -n facebook
+NAME                      READY   STATUS   RESTARTS     AGE
+pod/multicontainer-pods   1/2     Error    1 (8s ago)   14s
+```
+```
+Ranjinis-MacBook-Pro:eks ranjini$ kubectl describe pod/multicontainer-pods -n facebook
+Name:         multicontainer-pods
+Namespace:    facebook
+Priority:     0
+Node:         ip-192-168-60-205.us-west-2.compute.internal/192.168.60.205
+Start Time:   Tue, 25 Apr 2023 22:08:16 +0530
+Labels:       app=httpd
+              tier=frontend-backend
+              version=v1
+Annotations:  <none>
+Status:       Running
+IP:           192.168.60.216
+IPs:
+  IP:  192.168.60.216
+Containers:
+  httpd1:
+    Container ID:   containerd://2406f3c9f61708bcb42571703c8635dcc35b587815b1baaf932e7f0935d92db4
+    Image:          httpd
+    Image ID:       docker.io/library/httpd@sha256:a182ef2350699f04b8f8e736747104eb273e255e818cd55b6d7aa50a1490ed0c
+    Port:           80/TCP
+    Host Port:      0/TCP
+    State:          Running
+      Started:      Tue, 25 Apr 2023 22:08:22 +0530
+    Ready:          True
+    Restart Count:  0
+    Environment:    <none>
+    Mounts:
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-j28ss (ro)
+  httpd2:
+    Container ID:   containerd://568b84698af3af0788306291b7c209d28fe96ed879b93d059611d425c3581096
+    Image:          httpd
+    Image ID:       docker.io/library/httpd@sha256:a182ef2350699f04b8f8e736747104eb273e255e818cd55b6d7aa50a1490ed0c
+    Port:           80/TCP
+    Host Port:      0/TCP
+    State:          Waiting
+  **    Reason:       CrashLoopBackOff
+    Last State:     Terminated
+      Reason:       Error**
+      Exit Code:    1
+      Started:      Tue, 25 Apr 2023 22:09:06 +0530
+      Finished:     Tue, 25 Apr 2023 22:09:06 +0530
+    Ready:          False
+    Restart Count:  3
+    Environment:    <none>
+    Mounts:
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-j28ss (ro)
+Conditions:
+  Type              Status
+  Initialized       True 
+  Ready             False 
+  ContainersReady   False 
+  PodScheduled      True 
+Volumes:
+  kube-api-access-j28ss:
+    Type:                    Projected (a volume that contains injected data from multiple sources)
+    TokenExpirationSeconds:  3607
+    ConfigMapName:           kube-root-ca.crt
+    ConfigMapOptional:       <nil>
+    DownwardAPI:             true
+QoS Class:                   BestEffort
+Node-Selectors:              <none>
+Tolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
+                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
+Events:
+  Type     Reason     Age                From               Message
+  ----     ------     ----               ----               -------
+  Normal   Scheduled  84s                default-scheduler  Successfully assigned facebook/multicontainer-pods to ip-192-168-60-205.us-west-2.compute.internal
+  Normal   Pulling    83s                kubelet            Pulling image "httpd"
+  Normal   Pulled     78s                kubelet            Successfully pulled image "httpd" in 4.817375917s (4.817392112s including waiting)
+  Normal   Created    78s                kubelet            Created container httpd1
+  Normal   Started    78s                kubelet            Started container httpd1
+  Normal   Pulled     78s                kubelet            Successfully pulled image "httpd" in 561.392742ms (561.403591ms including waiting)
+  Normal   Pulled     75s                kubelet            Successfully pulled image "httpd" in 519.814136ms (519.825682ms including waiting)
+  Normal   Pulled     64s                kubelet            Successfully pulled image "httpd" in 538.520557ms (538.533185ms including waiting)
+  Normal   Pulling    35s (x4 over 78s)  kubelet            Pulling image "httpd"
+  Normal   Created    35s (x4 over 78s)  kubelet            Created container httpd2
+  Normal   Pulled     35s                kubelet            Successfully pulled image "httpd" in 566.804757ms (566.81465ms including waiting)
+  Normal   Started    34s (x4 over 78s)  kubelet            Started container httpd2
+  Warning  BackOff    24s (x5 over 74s)  kubelet            Back-off restarting failed container
+Ranjinis-MacBook-Pro:eks ranjini$ kubectl delete -f duplicate-pod.yaml 
+pod "multicontainer-pods" deleted
+Ranjinis-MacBook-Pro:eks ranjini$ kubectl delete ns facebook
+namespace "facebook" deleted
+```
   
 
 
