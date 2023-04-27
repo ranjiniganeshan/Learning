@@ -207,15 +207,21 @@ Ranjinis-MacBook-Pro:eks ranjini$ eksctl create cluster -f demo-cluster.yaml
 
 refer to namespace yaml file https://github.com/ranjiniganeshan/Learning/tree/main/EKS/namespace
 ```
-Ranjinis-MacBook-Pro:eks ranjini$ kubectl create -f test-dev.yaml 
-namespace/development created
+# replicateset
 
-
+```
 
 Ranjinis-MacBook-Pro:eks ranjini$ kubectl create -f namespace.yaml
 namespace/twitter created
 namespace/facebook created
-Ranjinis-MacBook-Pro:eks ranjini$ kubectl get namespace
+Ranjinis-MacBook-Pro:eks ranjini$ kubectl get namespaceRanjinis-MacBook-Pro:eks ranjini$ kubectl create -f replicaset.yaml 
+deployment.apps/demo created
+Ranjinis-MacBook-Pro:eks ranjini$ kubectl get rs
+NAME              DESIRED   CURRENT   READY   AGE
+demo-596dfbfb74   3         3         3       48s
+Ranjinis-MacBook-Pro:eks ranjini$ kubectl get deployment
+NAME   READY   UP-TO-DATE   AVAILABLE   AGE
+demo   3/3     3            3           67s
 NAME              STATUS   AGE
 default           Active   39m
 development       Active   4m21s
@@ -732,6 +738,16 @@ Events:
   Normal  Created    55s   kubelet            Created container redis
   Normal  Started    55s   kubelet            Started container redis
   ```
+  # Replicaset 
+  
+Ranjinis-MacBook-Pro:eks ranjini$ kubectl create -f replicaset.yaml 
+deployment.apps/demo created
+Ranjinis-MacBook-Pro:eks ranjini$ kubectl get rs
+NAME              DESIRED   CURRENT   READY   AGE
+demo-596dfbfb74   3         3         3       48s
+Ranjinis-MacBook-Pro:eks ranjini$ kubectl get deployment
+NAME   READY   UP-TO-DATE   AVAILABLE   AGE
+demo   3/3     3            3           67s
   
   Services
   
