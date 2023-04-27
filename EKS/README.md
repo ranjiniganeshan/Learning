@@ -783,6 +783,21 @@ http://35.90.205.82:30000/ after opening the port in security group for 30000.
 
 <img width="1280" alt="Screen Shot 2023-04-27 at 10 33 05 PM" src="https://user-images.githubusercontent.com/32661402/234936812-27ff56cd-081a-4f54-9230-453c4ff8d6a5.png">
 
+#Loadbalncer
+
+Access the services using externalIP( loadbalancer IP and port
+
+```
+
+Ranjinis-MacBook-Pro:eks ranjini$ kubectl apply -f loadbalancer.yaml 
+deployment.apps/nginx-deployment unchanged
+service/nginx-deployment-clusterip-svc configured
+Ranjinis-MacBook-Pro:eks ranjini$ kubectl get svc
+NAME                             TYPE           CLUSTER-IP      EXTERNAL-IP                                                               PORT(S)           AGE
+kubernetes                       ClusterIP      10.100.0.1      <none>                                                                    443/TCP           72m
+nginx-deployment-clusterip-svc   LoadBalancer   10.100.110.87   a4532765251524ba2bc7955e1e6be67f-1825180946.us-west-2.elb.amazonaws.com   32767:30000/TCP   37m
+```
+
 
 
 
