@@ -207,10 +207,6 @@ Ranjinis-MacBook-Pro:eks ranjini$ eksctl create cluster -f demo-cluster.yaml
 
 refer to namespace yaml file https://github.com/ranjiniganeshan/Learning/tree/main/EKS/namespace
 ```
-# replicateset
-
-```
-
 Ranjinis-MacBook-Pro:eks ranjini$ kubectl create -f namespace.yaml
 namespace/twitter created
 namespace/facebook created
@@ -234,6 +230,7 @@ twitter           Active   2m57s
 Ranjinis-MacBook-Pro:eks ranjini$ 
 
 ```
+
 # Pod creation
 
 ```
