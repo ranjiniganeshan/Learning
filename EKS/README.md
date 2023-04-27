@@ -737,6 +737,8 @@ Events:
   ```
   # Replicaset 
   
+  ```
+  
 Ranjinis-MacBook-Pro:eks ranjini$ kubectl create -f replicaset.yaml 
 deployment.apps/demo created
 Ranjinis-MacBook-Pro:eks ranjini$ kubectl get rs
@@ -745,11 +747,43 @@ demo-596dfbfb74   3         3         3       48s
 Ranjinis-MacBook-Pro:eks ranjini$ kubectl get deployment
 NAME   READY   UP-TO-DATE   AVAILABLE   AGE
 demo   3/3     3            3           67s
+
+```
   
-  Services
+  #Services
   
-  Nodeport: Listens on port and forwards the request to pod.
+  ClusterIP: is an Internal Load balancer is accessible only within the cluster
+  
+  kubctl apply -f clusterip.yaml. to access the service within the cluster use 10.100.110.87:32767
+  ```
+
+Ranjinis-MacBook-Pro:eks ranjini$ kubectl get svc
+NAME                             TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)     AGE
+kubernetes                       ClusterIP   10.100.0.1      <none>        443/TCP     40m
+**nginx-deployment-clusterip-svc   ClusterIP   10.100.110.87   <none>        32767/TCP   5m18s**
+```
+
+  <img width="759" alt="Screen Shot 2023-04-27 at 10 12 28 PM" src="https://user-images.githubusercontent.com/32661402/234932006-50c33b2d-8539-484b-98ff-b728893ec2a2.png">
+  
+  
+  Nodeport: Listens on port and forwards the request to pod. range 30000 to 32767
    <img width="929" alt="Screen Shot 2023-04-25 at 10 59 00 PM" src="https://user-images.githubusercontent.com/32661402/234356067-2327386c-0407-44a6-8094-98f33e177dee.png">
+   
+   ```
+   Ranjinis-MacBook-Pro:eks ranjini$ kubectl apply -f nodeport.yaml 
+deployment.apps/nginx-deployment unchanged
+service/nginx-deployment-clusterip-svc configured
+Ranjinis-MacBook-Pro:eks ranjini$ kubectl get svc
+NAME                             TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)           AGE
+kubernetes                       ClusterIP   10.100.0.1      <none>        443/TCP           47m
+nginx-deployment-clusterip-svc   NodePort    **10.100.110.87**   <none>        32767:**30000**/TCP   12m
+```
+
+http://35.90.205.82:30000/ after opening the port in security group for 30000. 
+
+<img width="1280" alt="Screen Shot 2023-04-27 at 10 33 05 PM" src="https://user-images.githubusercontent.com/32661402/234936812-27ff56cd-081a-4f54-9230-453c4ff8d6a5.png">
+
+
 
 
 
