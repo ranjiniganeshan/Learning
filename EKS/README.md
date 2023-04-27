@@ -797,6 +797,7 @@ NAME                             TYPE           CLUSTER-IP      EXTERNAL-IP     
 kubernetes                       ClusterIP      10.100.0.1      <none>                                                                    443/TCP           72m
 nginx-deployment-clusterip-svc   LoadBalancer   10.100.110.87   a4532765251524ba2bc7955e1e6be67f-1825180946.us-west-2.elb.amazonaws.com   32767:30000/TCP   37m
 ```
+<img width="980" alt="Screen Shot 2023-04-27 at 10 49 00 PM" src="https://user-images.githubusercontent.com/32661402/234940051-d15922eb-1614-4a87-857d-28c4c2b71879.png">
 
 
 
