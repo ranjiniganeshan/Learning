@@ -836,6 +836,37 @@ Events:  <none>
 ```
 
 
+# Create config map using literal
+```
+
+Ranjinis-MacBook-Pro:eks ranjini$ kubectl create configmap litercal-config --from-literal=mykey=myval --from-literal=myname=vinodh
+configmap/litercal-config created
+
+Ranjinis-MacBook-Pro:eks ranjini$ kubectl describe configmap litercal-config
+Name:         litercal-config
+Namespace:    default
+Labels:       <none>
+Annotations:  <none>
+
+Data
+====
+mykey:
+----
+myval
+myname:
+----
+vinodh
+
+BinaryData
+====
+
+Events:  <none>
+
+```
+  
+ 
+
+
 
 
 
