@@ -863,6 +863,78 @@ BinaryData
 Events:  <none>
 
 ```
+
+config as environment variable
+
+```
+Ranjinis-MacBook-Pro:configmap ranjini$ kubectl create configmap special-config --from-literal=special.how=very
+configmap/special-config created
+
+```
+
+How pod i s using env created by the above
+
+Ranjinis-MacBook-Pro:configmap ranjini$ kubectl create -f config-env-pod-single.yaml 
+pod/dapi-test-pod created
+Ranjinis-MacBook-Pro:configmap ranjini$ kubectl get pods -A
+NAMESPACE     NAME                       READY   STATUS      RESTARTS   AGE
+default       dapi-test-pod              0/1     Completed   0          56s
+kube-system   aws-node-6jslk             1/1     Running     0          86m
+kube-system   aws-node-r56n6             1/1     Running     0          86m
+kube-system   coredns-67f8f59c6c-7ccj2   1/1     Running     0          98m
+kube-system   coredns-67f8f59c6c-xf2zr   1/1     Running     0          98m
+kube-system   kube-proxy-l726j           1/1     Running     0          86m
+kube-system   kube-proxy-thxfd           1/1     Running     0          86m
+Pod using the above config as ENV
+
+Ranjinis-MacBook-Pro:configmap ranjini$ kubectl logs dapi-test-pod
+KUBERNETES_SERVICE_PORT=443
+KUBERNETES_PORT=tcp://10.100.0.1:443
+HOSTNAME=dapi-test-pod
+SHLVL=1
+HOME=/root
+KUBERNETES_PORT_443_TCP_ADDR=10.100.0.1
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+KUBERNETES_PORT_443_TCP_PORT=443
+KUBERNETES_PORT_443_TCP_PROTO=tcp
+SPECIAL_LEVEL_KEY=very
+KUBERNETES_SERVICE_PORT_HTTPS=443
+KUBERNETES_PORT_443_TCP=tcp://10.100.0.1:443
+PWD=/
+KUBERNETES_SERVICE_HOST=10.100.0.1
+
+```
+Config as volume
+
+Ranjinis-MacBook-Pro:configmap ranjini$ kubectl create -f configmapvolume.yaml 
+pod/configmap-demo-pod created
+Ranjinis-MacBook-Pro:configmap ranjini$ kubectl exec -it configmap-demo-pod sh
+kubectl exec [POD] [COMMAND] is DEPRECATED and will be removed in a future version. Use kubectl exec [POD] -- [COMMAND] instead.
+/ # 
+/ # df -h 
+Filesystem                Size      Used Available Use% Mounted on
+overlay                  10.0G      2.2G      7.8G  22% /
+tmpfs                    64.0M         0     64.0M   0% /dev
+tmpfs                     1.9G         0      1.9G   0% /sys/fs/cgroup
+/dev/xvda1               10.0G      2.2G      7.8G  22% /config
+/dev/xvda1               10.0G      2.2G      7.8G  22% /etc/hosts
+/dev/xvda1               10.0G      2.2G      7.8G  22% /dev/termination-log
+/dev/xvda1               10.0G      2.2G      7.8G  22% /etc/hostname
+/dev/xvda1               10.0G      2.2G      7.8G  22% /etc/resolv.conf
+shm                      64.0M         0     64.0M   0% /dev/shm
+tmpfs                     3.3G     12.0K      3.3G   0% /run/secrets/kubernetes.io/serviceaccount
+tmpfs                     1.9G         0      1.9G   0% /proc/acpi
+tmpfs                    64.0M         0     64.0M   0% /proc/kcore
+tmpfs                    64.0M         0     64.0M   0% /proc/keys
+tmpfs                    64.0M         0     64.0M   0% /proc/latency_stats
+tmpfs                    64.0M         0     64.0M   0% /proc/timer_list
+tmpfs                    64.0M         0     64.0M   0% /proc/sched_debug
+tmpfs                     1.9G         0      1.9G   0% /proc/scsi
+tmpfs                     1.9G         0      1.9G   0% /sys/firmware
+/ # cd /config
+/config # ls
+game.properties            user-interface.properties
+```
   
  
 
