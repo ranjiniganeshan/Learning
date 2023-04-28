@@ -799,6 +799,42 @@ nginx-deployment-clusterip-svc   LoadBalancer   10.100.110.87   a4532765251524ba
 ```
 <img width="980" alt="Screen Shot 2023-04-27 at 10 49 00 PM" src="https://user-images.githubusercontent.com/32661402/234940051-d15922eb-1614-4a87-857d-28c4c2b71879.png">
 
+## Config map
+
+How to store configuration information instead of hard coding in docker container. 
+
+config map can be stored in file and folders and as well can be passed as literal or volume.
+
+```
+Ranjinis-MacBook-Pro:eks ranjini$ kubectl get configmap
+NAME               DATA   AGE
+kube-root-ca.crt   1      17m
+
+Ranjinis-MacBook-Pro:eks ranjini$ kubectl create configmap testconfig --from-file="configmap/game.properties"
+configmap/testconfig created
+Ranjinis-MacBook-Pro:eks ranjini$ kubectl get configmap
+NAME               DATA   AGE
+kube-root-ca.crt   1      18m
+testconfig         1      10s
+Ranjinis-MacBook-Pro:eks ranjini$ kubectl describe configmap testconfig
+Name:         testconfig
+Namespace:    default
+Labels:       <none>
+Annotations:  <none>
+
+Data
+====
+game.properties:
+----
+enemy.types=aliens,monsters
+player.maximum-lives=5    
+
+BinaryData
+====
+
+Events:  <none>
+```
+
 
 
 
