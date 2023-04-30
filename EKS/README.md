@@ -935,6 +935,79 @@ tmpfs                     1.9G         0      1.9G   0% /sys/firmware
 /config # ls
 game.properties            user-interface.properties
 ```
+## Volumes
+
+* empty-dir
+
+this is temporary storage. when the pod is getting created this occurs and when the pod is deleted the folder is also deleted on the worker node.
+
+```
+Ranjinis-MacBook-Pro:eks ranjini$ kubectl apply -f empty-dir.yaml
+pod/test-pd created
+Ranjinis-MacBook-Pro:eks ranjini$ kubectl get nodes -A
+NAME                                           STATUS   ROLES    AGE     VERSION
+ip-192-168-45-133.us-west-2.compute.internal   Ready    <none>   4m41s   v1.25.7-eks-a59e1f0
+ip-192-168-76-225.us-west-2.compute.internal   Ready    <none>   4m42s   v1.25.7-eks-a59e1f0
+Ranjinis-MacBook-Pro:eks ranjini$ kubectl get pods -A
+NAMESPACE     NAME                       READY   STATUS    RESTARTS   AGE
+default       test-pd                    1/1     Running   0          23s
+kube-system   aws-node-5pxxf             1/1     Running   0          4m50s
+kube-system   aws-node-zsqng             1/1     Running   0          4m51s
+kube-system   coredns-67f8f59c6c-lkfqk   1/1     Running   0          16m
+kube-system   coredns-67f8f59c6c-z4bfl   1/1     Running   0          16m
+kube-system   kube-proxy-6xtjt           1/1     Running   0          4m50s
+kube-system   kube-proxy-v6ntc           1/1     Running   0          4m51s
+
+```
+
+* created a file within pod
+```
+Ranjinis-MacBook-Pro:eks ranjini$ kubectl exec -it test-pd sh  -n default
+kubectl exec [POD] [COMMAND] is DEPRECATED and will be removed in a future version. Use kubectl exec [POD] -- [COMMAND] instead.
+/ # 
+/ # df -h
+Filesystem                Size      Used Available Use% Mounted on
+overlay                  10.0G      2.2G      7.8G  22% /
+tmpfs                    64.0M         0     64.0M   0% /dev
+tmpfs                     1.9G         0      1.9G   0% /sys/fs/cgroup
+/dev/xvda1               10.0G      2.2G      7.8G  22% /cache
+/dev/xvda1               10.0G      2.2G      7.8G  22% /etc/hosts
+/dev/xvda1               10.0G      2.2G      7.8G  22% /dev/termination-log
+/dev/xvda1               10.0G      2.2G      7.8G  22% /etc/hostname
+/dev/xvda1               10.0G      2.2G      7.8G  22% /etc/resolv.conf
+shm                      64.0M         0     64.0M   0% /dev/shm
+tmpfs                     3.3G     12.0K      3.3G   0% /var/run/secrets/kubernetes.io/serviceaccount
+tmpfs                     1.9G         0      1.9G   0% /proc/acpi
+tmpfs                    64.0M         0     64.0M   0% /proc/kcore
+tmpfs                    64.0M         0     64.0M   0% /proc/keys
+tmpfs                    64.0M         0     64.0M   0% /proc/latency_stats
+tmpfs                    64.0M         0     64.0M   0% /proc/timer_list
+tmpfs                    64.0M         0     64.0M   0% /proc/sched_debug
+tmpfs                     1.9G         0      1.9G   0% /proc/scsi
+tmpfs                     1.9G         0      1.9G   0% /sys/firmware
+/ # cd /cache
+/cache # echo "This is a test file"
+This is a test file
+/cache # echo "This is a test file" > test_file_empty_dir.txt
+/cache # ls
+test_file_empty_dir.txt
+/cache # cat test_file_empty_dir.txt 
+This is a test file
+/cache # exit
+```
+
+* this file is available on worker node
+
+get the uuid of the pod 
+```
+Ranjinis-MacBook-Pro:eks ranjini$ kubectl get pods -n default test-pd -o jsonpath='{.metadata.uid}'
+00544750-d5ce-41d6-ba6d-6d68e1834190Ranjinis-MacBook-Pro:eks ranjini$ 
+root@ip-192-168-45-133 cache-volume]# pwd
+/var/lib/kubelet/pods/00544750-d5ce-41d6-ba6d-6d68e1834190/volumes/kubernetes.io~empty-dir/cache-volume
+[root@ip-192-168-45-133 cache-volume]# cat test_file_empty_dir.txt
+This is a test file
+```
+
   
  
 
