@@ -1007,6 +1007,14 @@ root@ip-192-168-45-133 cache-volume]# pwd
 [root@ip-192-168-45-133 cache-volume]# cat test_file_empty_dir.txt
 This is a test file
 ```
+#Persistent volume : This is the permanent storage. Even if the pod is deleted the storage remains.
+
+Steps 
+1. create persistent volume (example admins say that they need 100G )
+2. clain the persistent volume ( developers take 10G from the above. they submit the claim)
+3. the submitted claims needs to be allocated to pod.
+
+
 
   
  
