@@ -1011,8 +1011,40 @@ This is a test file
 
 Steps 
 1. create persistent volume (example admins say that they need 100G )
+```
+Ranjinis-MacBook-Pro:volumes ranjini$ kubectl apply -f pv.yaml 
+persistentvolume/foo-pv created
+```
 2. clain the persistent volume ( developers take 10G from the above. they submit the claim)
+```
+Ranjinis-MacBook-Pro:volumes ranjini$ kubectl apply -f pvc.yaml
+persistentvolumeclaim/foo-pvc created
+Ranjinis-MacBook-Pro:volumes ranjini$ kubectl get pvc
+NAME      STATUS   VOLUME   CAPACITY   ACCESS MODES   STORAGECLASS    AGE
+foo-pvc   Bound    foo-pv   1Gi        RWO            local-storage   34m
+Ranjinis-MacBook-Pro:volumes ranjini$ kubectl get pv
+NAME     CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS   CLAIM             STORAGECLASS    REASON   AGE
+foo-pv   1Gi        RWO            Retain           Bound    default/foo-pvc   local-storage            40m
+```
 3. the submitted claims needs to be allocated to pod.
+```
+Ranjinis-MacBook-Pro:volumes ranjini$ kubectl apply -f pod-pvc.yaml 
+pod/pvc-pod-01 created
+Ranjinis-MacBook-Pro:volumes ranjini$ kubectl get pods -A
+NAMESPACE     NAME                       READY   STATUS    RESTARTS   AGE
+default       pvc-pod-01                 1/1     Running   0          14s
+kube-system   aws-node-dfp8r             1/1     Running   0          52m
+kube-system   aws-node-fcvf6             1/1     Running   0          52m
+kube-system   coredns-67f8f59c6c-fpxpl   1/1     Running   0          66m
+kube-system   coredns-67f8f59c6c-mw6tx   1/1     Running   0          66m
+kube-system   kube-proxy-h4nrp           1/1     Running   0          52m
+kube-system   kube-proxy-qvbcj           1/1     Running   0          52m
+Ranjinis-MacBook-Pro:volumes ranjini$ kubectl exec -it pvc-pod-01 -- /bin/sh
+/ # 
+/ # df -h /mnt/storage
+Filesystem                Size      Used Available Use% Mounted on
+/dev/xvda1               10.0G      2.2G      7.8G  22% /mnt/storage
+```
 
 
 
