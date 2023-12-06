@@ -106,6 +106,7 @@ kind: ClusterConfig
 metadata:
   name: demo-cluster
   region: us-west-2
+  version: "1.27"
 
 nodeGroups:
   - name: ng-1
