@@ -100,6 +100,26 @@ kind: ClusterConfig
 metadata:
   name: demo-cluster
   region: us-west-2
+  apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+
+metadata:
+  name: demo-cluster
+  region: us-west-2
+
+nodeGroups:
+  - name: ng-1
+    instanceType: t2.medium
+    desiredCapacity: 2
+    volumeSize: 10
+    ssh:
+      allow: true # will use ~/.ssh/id_rsa.pub as the default ssh key
+  - name: ng-2
+    instanceType: t2.medium
+    desiredCapacity: 2
+    volumeSize: 10
+    ssh:
+      publicKeyPath: ~/.ssh/id_rsa.pub
 
 nodeGroups:
   - name: ng-1
