@@ -100,12 +100,6 @@ kind: ClusterConfig
 metadata:
   name: demo-cluster
   region: us-west-2
-  apiVersion: eksctl.io/v1alpha5
-kind: ClusterConfig
-
-metadata:
-  name: demo-cluster
-  region: us-west-2
   version: "1.27"
 
 nodeGroups:
